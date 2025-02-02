@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  namespace: expense
+  name: multi-container
+  labels:
+    project: expense
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  - name: almalinix
+    image: almalinux:9
