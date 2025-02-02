@@ -6,7 +6,7 @@ metadata:
     tier: frontend
     app: expense
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       tier: frontend
