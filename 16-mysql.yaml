@@ -10,13 +10,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      project: expense
       env: dev
       tier: mysql
   template:
     metadata:
       labels:
-        project: expense
         env: dev
         tier: mysql
     spec:
