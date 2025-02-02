@@ -5,4 +5,4 @@ metadata:
   name: nginx-configmap
 data:
   course: "devops"
-  duration: 120
+  duration: "120"
