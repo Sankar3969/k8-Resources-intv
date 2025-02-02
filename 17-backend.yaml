@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: expense
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: expense
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: expense
+        tier: backend
+    spec:
+      containers:
+        - name: exp-backend
+          image: sankarjuvva/backend:latest
+---
+apiVersion: v1 
+kind: Service
+metadata:
+ name: backend-svc
+spec:
+  selector: 
+    app: expense
+    tier: backend
+  ports:
+    - name: backend-port
+      protocol: TCP
+      port: 80
+      targetPort: 80
+
