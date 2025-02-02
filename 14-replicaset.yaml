@@ -20,3 +20,18 @@ spec:
       containers:
         - name: nginx
           image: nginx  
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: nginx-replica-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx1
+    tier: fronend1
+  ports: 
+    - name: nginx-svc-rep
+      protocol: TCP
+      port: 80
+      targetPort: 80
