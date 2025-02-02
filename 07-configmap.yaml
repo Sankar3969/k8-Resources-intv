@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  namespace: expense
+  name: nginx-configmap
+data:
+  course: "devops"
+  duration: 120
