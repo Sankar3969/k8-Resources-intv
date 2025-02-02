@@ -10,23 +10,34 @@ kind: Deployment
 metadata:
   name: backend-deployment
   labels:
-    app: expense
-    tier: backend
+      app: expense
+      env: dev
+      tier: backend
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: expense
+      env: dev
       tier: backend
   template:
     metadata:
       labels:
         app: expense
+        env: dev
         tier: backend
     spec:
       containers:
         - name: exp-backend
           image: sankarjuvva/backend:latest
+          resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+   #limits should increase
+          limits:
+            cpu: 110m
+            memory: 130Mi
           envFrom:
             - configMapRef:
                 name: backend
