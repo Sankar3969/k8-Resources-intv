@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ReplicaSet
 metadata:
-  - name: nginx-replicaset
+    name: nginx-replicaset
     labels:
       project: exp-replicaset
       env: dev
@@ -13,6 +13,7 @@ spec:
       tier: fronend
   template:
     metadata:
+      name: nginx-relica
       labels:
         app: nginx
         tier: fronend
