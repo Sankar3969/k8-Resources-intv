@@ -1,76 +1,46 @@
-apiVersion: v1
+apiVersion: v1 
 kind: ConfigMap
 metadata:
   name: backend
-  namespace: expense
 data:
   DB_HOST: mysql
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
-  namespace: expense
+  name: backend-deployment
   labels:
-    app: backend
-    tier: api
-    project: expense
+    app: expense
+    tier: backend
 spec:
-  replicas: 2
   selector:
     matchLabels:
-      app: backend
-      tier: api
-      project: expense
+      app: expense
+      tier: backend
   template:
     metadata:
       labels:
-        app: backend
-        tier: api
-        project: expense
+        app: expense
+        tier: backend
     spec:
-      initContainers:
-      - name: mysql-check
-        image: busybox:1.28
-        command: ['sh', '-c', "until nslookup mysql; do echo waiting for myservice; sleep 2; done"]
       containers:
-      - name: backend
-        image: joindevops/backend:v1
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          # limits is greater than or equal to requests
-          limits:
-            cpu: 100m
-            memory: 128Mi
-        envFrom:
-        - configMapRef:
-            name: backend
-        readinessProbe:
-          tcpSocket:
-            port: 8080
-          initialDelaySeconds: 15
-          periodSeconds: 10
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 3
-          periodSeconds: 3
+        - name: exp-backend
+          image: sankarjuvva/backend:latest
+          envFrom:
+            - configMapRef:
+                name: backend
 ---
+apiVersion: v1 
 kind: Service
-apiVersion: v1
 metadata:
-  name: backend
-  namespace: expense
+ name: backend-svc
 spec:
-  selector:
-    app: backend
-    tier: api
-    project: expense
+  selector: 
+    app: expense
+    tier: backend
   ports:
-  - name: backend-port
-    protocol: TCP
-    port: 8080 # service port
-    targetPort: 8080 # container port
+    - name: backend-port
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+

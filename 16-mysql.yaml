@@ -1,52 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata:
+metadata: 
   name: mysql
-  namespace: expense
   labels:
-    app: mysql
-    tier: db
     project: expense
+    env: dev
+    tier: mysql
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: mysql
-      tier: db
-      project: expense
+      app: expense
+      tier: mysql
   template:
     metadata:
       labels:
-        app: mysql
-        tier: db
-        project: expense
+        app: expense
+        tier: mysql
     spec:
       containers:
-      - name: mysql
-        image: sankardevops/mysql:latest
-        readinessProbe:
-          tcpSocket:
-            port: 3306
-          initialDelaySeconds: 15
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: 3306
-          initialDelaySeconds: 15
-          periodSeconds: 10
+        - name: mysql
+          image: sankarjuvva/mysql:latest
 ---
+apiVersion: v1 
 kind: Service
-apiVersion: v1
 metadata:
   name: mysql
-  namespace: expense
 spec:
   selector:
-    app: mysql
-    tier: db
     project: expense
+    env: dev
+    tier: mysql
   ports:
-  - name: mysql-port
-    protocol: TCP
-    port: 3306 # service port
-    targetPort: 3306 # container port
+    - name: mysql-svc
+      protocol: TCP 
+      port: 3306
+      targetPort: 3306
+
+  
