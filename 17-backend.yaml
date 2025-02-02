@@ -4,6 +4,8 @@ metadata:
   name: backend
 data:
   DB_HOST: mysql
+  DB_USER: root
+  DB_PASSWORD: ExpenseApp@1
 ---
 apiVersion: apps/v1
 kind: Deployment
