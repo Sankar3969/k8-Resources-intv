@@ -21,6 +21,9 @@ spec:
       containers:
         - name: mysql
           image: sankarjuvva/mysql:latest
+          envFrom:
+            - configMapRef:
+                name: backend
 ---
 apiVersion: v1 
 kind: Service
