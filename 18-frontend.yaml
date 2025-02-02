@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fronend-dep
+  labels:
+    tier: frontend
+    app: expense
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: frontend
+      app: expense
+  template:
+    metadata:
+      tier: frontend
+      app: expense
+    spec:
+      containers:
+        - name: exp-frontend
+          image: sankarjuvva/frontend:latest
+---
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: frontend-svc
+spec:
+  type: LoadBalancer
+  selector:
+      tier: frontend
+      app: expense  
+  ports:
+    - name: front-port
+      protocol: TCP
+      port: 80
+      targetPort: 80
+
