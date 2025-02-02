@@ -1,45 +1,76 @@
-apiVersion: v1 
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: backend
+  namespace: expense
 data:
   DB_HOST: mysql
-  DB_USER: root
-  DB_PASSWORD: ExpenseApp@1
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment
+  name: backend
+  namespace: expense
   labels:
-    app: expense
-    tier: backend
+    app: backend
+    tier: api
+    project: expense
 spec:
+  replicas: 2
   selector:
     matchLabels:
-      app: expense
-      tier: backend
+      app: backend
+      tier: api
+      project: expense
   template:
     metadata:
       labels:
-        app: expense
-        tier: backend
+        app: backend
+        tier: api
+        project: expense
     spec:
+      initContainers:
+      - name: mysql-check
+        image: busybox:1.28
+        command: ['sh', '-c', "until nslookup mysql; do echo waiting for myservice; sleep 2; done"]
       containers:
-        - name: exp-backend
-          image: sankarjuvva/backend:latest
+      - name: backend
+        image: joindevops/backend:v1
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          # limits is greater than or equal to requests
+          limits:
+            cpu: 100m
+            memory: 128Mi
+        envFrom:
+        - configMapRef:
+            name: backend
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
 ---
-apiVersion: v1 
 kind: Service
+apiVersion: v1
 metadata:
- name: backend-svc
+  name: backend
+  namespace: expense
 spec:
-  selector: 
-    app: expense
-    tier: backend
+  selector:
+    app: backend
+    tier: api
+    project: expense
   ports:
-    - name: backend-port
-      protocol: TCP
-      port: 8080
-      targetPort: 8080
-
+  - name: backend-port
+    protocol: TCP
+    port: 8080 # service port
+    targetPort: 8080 # container port
