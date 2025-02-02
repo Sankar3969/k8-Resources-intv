@@ -8,11 +8,11 @@ spec:
     - name: nginx
       image: nginx
       resources:
-      requests:
-        cpu: 100m
-        memory: 68Mi
-      limits:
-        cpu: 120m
-        memory: 68Mi
+        requests:
+          cpu: 100m
+          memory: 68Mi
+        limits:
+          cpu: 120m
+          memory: 68Mi
 
 
