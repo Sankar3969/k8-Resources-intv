@@ -13,8 +13,9 @@ spec:
       app: expense
   template:
     metadata:
-      tier: frontend
-      app: expense
+      labels:
+        tier: frontend
+        app: expense
     spec:
       containers:
         - name: exp-frontend
