@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx-dep
+    tier: front
+spec:
+  selector:
+    matchLabels:
+      app: nginx-deploy
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: nginx-deploy
+        tier: frontend
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: nginx-deploy-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx-dep
+    tier: front
+  ports:
+  - name: dep-port
+    protocol: TCP
+    port: 80
+    targetPort: 80
+    
