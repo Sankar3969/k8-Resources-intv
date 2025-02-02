@@ -25,6 +25,8 @@ spec:
 apiVersion: v1 
 kind: Service
 metadata:
+  name: mysql-svc
+spec:
   selector:
     project: expense
     env: dev
