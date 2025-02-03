@@ -53,7 +53,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: sankardevops/mysql:latest
+        image: sankarjuvva/mysql:latest
         volumeMounts:
           - name: mysql-vol-claim
             mountPath: /var/lib/mysql
