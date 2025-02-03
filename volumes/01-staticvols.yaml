@@ -32,6 +32,8 @@ metadata:
   labels:
     purpose: staticvol
 spec:
+  nodeSelector:
+    topology.kubernetes.io/zone: us-east-1f    
   containers:
   - name: nginx
     image: nginx
@@ -48,6 +50,7 @@ kind: Service
 metadata: 
   name: nginx-static-pv
 spec:
+  type: LoadBalancer
   selector: 
      purpose: staticvol
   ports:
@@ -55,4 +58,3 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 80
-      
