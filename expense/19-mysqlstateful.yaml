@@ -56,7 +56,7 @@ spec:
         image: sankardevops/mysql:latest
         volumeMounts:
           - name: mysql-vol-claim
-            path: /var/lib/mysql
+            mountPath: /var/lib/mysql
   volumeClaimTemplates:
   - metadata:
       name: mysql-vol-claim
